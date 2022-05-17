@@ -1,7 +1,11 @@
 package com.example.carrental;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -10,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.stage.StageStyle;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,7 +47,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        File brandingFile = new File("background/background_car_rental1.jpg");
+        File brandingFile = new File("background/logo.jpeg");
         Image brandingImage = new Image(brandingFile.toURI().toString());
         brandingImageView.setImage(brandingImage);
 
@@ -54,7 +59,7 @@ public class LoginController implements Initializable {
     public void loginButtonOnAction(ActionEvent event){
 
         if(usernameTextField.getText().isBlank()==false &&enterPasswordField.getText().isBlank()==false){
-          //  loginMessageLabel.setText(" You try to login.");
+            loginMessageLabel.setText(" You try to login.");
             validateLogin();
         }else {
             loginMessageLabel.setText("Please enter username and password");
@@ -72,7 +77,7 @@ public class LoginController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin ="select count(1) from user_account where username = '" + usernameTextField.getText() +"' and password = '" +enterPasswordField.getText()+"'";
+        String verifyLogin ="select count(1) from users_account where username = '" + usernameTextField.getText() +"' and password = '" +enterPasswordField.getText()+"'";
 
         try{
             Statement statement =connectDB.createStatement();
@@ -86,6 +91,21 @@ public class LoginController implements Initializable {
                 }
             }
         }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+
+    public void createAccountForm(){
+        try{
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
+            Stage registerStage = new Stage();
+            registerStage.initStyle(StageStyle.UNDECORATED);
+            registerStage.setScene(new Scene(root, 596, 683));
+            registerStage.show();
+
+        } catch(Exception e){
             e.printStackTrace();
             e.getCause();
         }
