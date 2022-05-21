@@ -1,4 +1,5 @@
 module-info.class
 com\example\carrental\HelloApplication.class
 com\example\carrental\DatabaseConnection.class
+com\example\carrental\RegisterController.class
 com\example\carrental\LoginController.class

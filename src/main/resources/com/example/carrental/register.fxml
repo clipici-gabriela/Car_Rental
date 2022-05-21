@@ -61,12 +61,12 @@
       <TextField fx:id="usernameTextField" layoutX="158.0" layoutY="236.0" prefHeight="26.0" prefWidth="402.0" promptText="Username" />
       <PasswordField fx:id="setPasswordField" layoutX="157.0" layoutY="386.0" prefHeight="26.0" prefWidth="402.0" promptText="Password" />
       <PasswordField fx:id="confirmPasswordField" layoutX="158.0" layoutY="436.0" prefHeight="26.0" prefWidth="401.0" promptText="Confirm Password" />
-      <Button fx:id="registerButton" layoutX="422.0" layoutY="566.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="36.0" prefWidth="140.0" style="-fx-background-color: #678cd7;" text="Register">
+      <Button fx:id="registerButton" layoutX="163.0" layoutY="556.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="36.0" prefWidth="140.0" style="-fx-background-color: #678cd7;" text="Register">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="closeButton" alignment="CENTER" layoutX="8.0" layoutY="566.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="36.0" prefWidth="140.0" style="-fx-background-color: #678cd7;" text="Cancel">
+      <Button fx:id="closeButton" alignment="CENTER" layoutX="10.0" layoutY="641.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="36.0" prefWidth="82.0" style="-fx-background-color: #678cd7;" text="Cancel">
          <font>
             <Font name="Segoe UI" size="18.0" />
          </font>
@@ -83,9 +83,9 @@
       </Label>
       <TextField fx:id="addressTextField" layoutX="158.0" layoutY="286.0" prefHeight="26.0" prefWidth="402.0" promptText="Address" />
       <TextField fx:id="phoneNumberTextField" layoutX="158.0" layoutY="336.0" prefHeight="26.0" prefWidth="402.0" promptText="Phone number" />
-      <Button fx:id="LoginButton" layoutX="213.0" layoutY="566.0" mnemonicParsing="false" onAction="#openLogin" prefHeight="36.0" prefWidth="140.0" style="-fx-background-color: #678cd7;" text="Login">
+      <Button fx:id="LoginButton" layoutX="401.0" layoutY="623.0" mnemonicParsing="false" onAction="#openLogin" prefHeight="36.0" prefWidth="174.0" style="-fx-background-color: #FFFFFF;" text="Back to Login" textFill="#3a47dc">
          <font>
-            <Font name="Segoe UI" size="18.0" />
+            <Font name="Segoe UI" size="14.0" />
          </font>
       </Button>
       <Label fx:id="confirmPasswordLabel" layoutX="65.0" layoutY="462.0" prefHeight="18.0" prefWidth="198.0" textFill="#d40505">

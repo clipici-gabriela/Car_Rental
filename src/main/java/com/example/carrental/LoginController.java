@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.stage.StageStyle;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -45,6 +48,10 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField enterPasswordField;
 
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         File brandingFile = new File("background/logo.jpeg");
@@ -73,11 +80,33 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
+    private static MessageDigest getMessageDigest() {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-512 does not exist!");
+        }
+        return md;
+    }
+
+    private static String encodePassword(String salt, String password) {
+        MessageDigest md = getMessageDigest();
+        md.update(salt.getBytes(StandardCharsets.UTF_8));
+
+        byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+        return new String(hashedPassword, StandardCharsets.UTF_8)
+                .replace("\"", "");
+    }
+
+
     public void validateLogin(){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin ="select count(1) from users_account where username = '" + usernameTextField.getText() +"' and password = '" +enterPasswordField.getText()+"'";
+        String encodePassword = encodePassword(usernameTextField.getText(), enterPasswordField.getText());
+        String verifyLogin ="select count(1) from users_account where username = '" + usernameTextField.getText() +"' and password = '"+ encodePassword +"'";
 
         try{
             Statement statement =connectDB.createStatement();
@@ -97,15 +126,15 @@ public class LoginController implements Initializable {
     }
 
 
-    public void createAccountForm(){
-        try{
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
-            Stage registerStage = new Stage();
-            registerStage.initStyle(StageStyle.UNDECORATED);
-            registerStage.setScene(new Scene(root, 596, 683));
-            registerStage.show();
+    public void createAccountForm(ActionEvent event){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("register.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
-        } catch(Exception e){
+            } catch(Exception e){
             e.printStackTrace();
             e.getCause();
         }

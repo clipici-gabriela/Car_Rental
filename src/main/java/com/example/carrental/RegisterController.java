@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +16,9 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -22,6 +26,10 @@ import java.sql.Struct;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private ImageView shieldImageView;
@@ -86,10 +94,29 @@ public class RegisterController implements Initializable {
         Platform.exit();
     }
 
+    private static MessageDigest getMessageDigest() {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-512 does not exist!");
+        }
+        return md;
+    }
+
+    private static String encodePassword(String salt, String password) {
+        MessageDigest md = getMessageDigest();
+        md.update(salt.getBytes(StandardCharsets.UTF_8));
+
+        byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+        return new String(hashedPassword, StandardCharsets.UTF_8)
+                .replace("\"", "");
+    }
+
     public void registerButtonOnAction(ActionEvent event){
         if(setPasswordField.getText().equals(confirmPasswordField.getText())){
             registrationUser();
-            //confirmPasswordLabel.setText("You are set.");
         }else {
             confirmPasswordLabel.setText("Password does not match.");
         }
@@ -104,7 +131,8 @@ public class RegisterController implements Initializable {
         String username = usernameTextField.getText();
         String address = addressTextField.getText();
         String phone_number = phoneNumberTextField.getText();
-        String password = setPasswordField.getText();
+     // String password = setPasswordField.getText();
+        String password = encodePassword(username,setPasswordField.getText());
         String role = roleChoiceBox.getValue();
 
         String insertFields = "INSERT INTO users_account (first_name, last_name,username,address,phone_number,password,role) VALUES ('";
@@ -124,13 +152,13 @@ public class RegisterController implements Initializable {
 
     }
 
-    public void openLogin(){
+    public void openLogin(ActionEvent event){
         try{
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
-            Stage registerStage = new Stage();
-            registerStage.initStyle(StageStyle.UNDECORATED);
-            registerStage.setScene(new Scene(root, 600, 481));
-            registerStage.show();
+            Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
         } catch(Exception e){
             e.printStackTrace();
