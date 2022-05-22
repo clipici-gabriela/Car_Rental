@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -28,7 +32,7 @@ import java.net.URL;
 public class LoginController implements Initializable {
 
     @FXML
-    private Button cancelButton;
+    private Button cancelButton, loginButton;
 
     @FXML
     private Label loginMessageLabel;
@@ -45,6 +49,8 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField enterPasswordField;
 
+    private String role;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         File brandingFile = new File("background/logo.jpeg");
@@ -59,8 +65,15 @@ public class LoginController implements Initializable {
     public void loginButtonOnAction(ActionEvent event){
 
         if(usernameTextField.getText().isBlank()==false &&enterPasswordField.getText().isBlank()==false){
-            loginMessageLabel.setText(" You try to login.");
+          //  loginMessageLabel.setText(" You try to login.");
             validateLogin();
+            getUser();
+            if (role == "manager"){
+
+            } else{
+
+            }
+
         }else {
             loginMessageLabel.setText("Please enter username and password");
 
@@ -73,39 +86,133 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
+    private static MessageDigest getMessageDigest() {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-512 does not exist!");
+        }
+        return md;
+    }
+
+    private static String encodePassword(String salt, String password) {
+        MessageDigest md = getMessageDigest();
+        md.update(salt.getBytes(StandardCharsets.UTF_8));
+
+        byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+        return new String(hashedPassword, StandardCharsets.UTF_8)
+                .replace("\"", "");
+    }
+
+
     public void validateLogin(){
+
+        int ok1 = 0, ok2 = 0;
+
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin ="select count(1) from users_account where username = '" + usernameTextField.getText() +"' and password = '" +enterPasswordField.getText()+"'";
+        String encodePassword = encodePassword(usernameTextField.getText(), enterPasswordField.getText());
+        String verifyLogin1 ="select count(1) from customers where username = '" + usernameTextField.getText() +"' and password = '"+ encodePassword +"'";
+        String verifyLogin2 ="select count(1) from company where username = '" + usernameTextField.getText() +"' and password = '"+ encodePassword +"'";
 
         try{
-            Statement statement =connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult1 = statement.executeQuery(verifyLogin1);
 
-            while (queryResult.next()){
-                if (queryResult.getInt(1) == 1){
-                    loginMessageLabel.setText("Very good! :)");
-                } else{
-                    loginMessageLabel.setText("Invalid login.Please try again! ");
-                }
+            while (queryResult1.next()){
+                if (queryResult1.getInt(1) == 1)
+                    ok1 = 1;
             }
+
+            ResultSet queryResult2 = statement.executeQuery(verifyLogin2);
+
+            while (queryResult2.next()){
+                if (queryResult2.getInt(1) == 1)
+                    ok2 = 1;
+            }
+
+            if (ok1 == 1){
+                loginButton.setOnAction(actionEvent -> {
+                    loginButton.getScene().getWindow().hide();
+                    FXMLLoader loader = new FXMLLoader();
+
+                    loader.setLocation(getClass().getResource("startCustomerPage.fxml"));
+
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        e.getCause();
+                    }
+
+                    Parent root = loader.getRoot();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.show();
+                });
+            }
+            if(ok2 == 1)if (ok1 == 1){
+                loginButton.setOnAction(actionEvent -> {
+                    loginButton.getScene().getWindow().hide();
+                    FXMLLoader loader = new FXMLLoader();
+
+                    loader.setLocation(getClass().getResource("startManagerPage.fxml"));
+
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Parent root = loader.getRoot();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.show();
+                });
+            }
+
         }catch (Exception e){
             e.printStackTrace();
             e.getCause();
         }
     }
 
+    public void getUser(){
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        String getRow = "SELECT * FROM users_account WHERE username = '" + usernameTextField.getText() + "'";
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(getRow);
+            while (queryResult.next()){
+                role = queryResult.getString("role");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
 
-    public void createAccountForm(){
-        try{
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
-            Stage registerStage = new Stage();
-            registerStage.initStyle(StageStyle.UNDECORATED);
-            registerStage.setScene(new Scene(root, 596, 683));
-            registerStage.show();
+    }
 
-        } catch(Exception e){
+
+
+    public void createAccountForm(ActionEvent event){
+        Stage stage;
+        Scene scene;
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("chooseRole.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            } catch(Exception e){
             e.printStackTrace();
             e.getCause();
         }

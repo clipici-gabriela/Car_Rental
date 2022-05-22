@@ -8,41 +8,42 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Struct;
 import java.util.ResourceBundle;
 
-public class RegisterController implements Initializable {
-
-
-    @FXML
-    private ImageView shieldImageView, nameImageView;;
+public class ManagerRegisterController implements Initializable {
 
     @FXML
-    private Button closeButton;
+    private ImageView shImageView, nmImageView;
 
     @FXML
-    private Label registrationMessageLabel, usernameLabel, confirmPasswordLabel;
+    private Button clloseButton;
+
+    @FXML
+    private TextField companyNameTextField, firstnameTextField, lastnameTextField, usernameTextField, addressTextField, phoneNumberTextField;
 
     @FXML
     private PasswordField setPasswordField, confirmPasswordField;
 
     @FXML
-    private TextField firstnameTextField, lastnameTextField, usernameTextField, addressTextField, phoneNumberTextField;
+    private Label confirmPasswordLabel, usernameLabel, registrationMessageLabel;
+
 
 
 
@@ -50,73 +51,63 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         File shieldFile = new File("background/register.jpg");
         Image shieldImage = new Image(shieldFile.toURI().toString());
-        shieldImageView.setImage(shieldImage);
+        shImageView.setImage(shieldImage);
 
         File nameFile = new File("background/name.png");
         Image nameImage = new Image(nameFile.toURI().toString());
-        nameImageView.setImage(nameImage);
+        nmImageView.setImage(nameImage);
 
     }
 
-
-    public void closeButtonOnAction(ActionEvent event){
-
-        Stage stage =(Stage) closeButton.getScene().getWindow();
-        stage.close();
-        Platform.exit();
-    }
-
-    private static MessageDigest getMessageDigest() {
+    private static MessageDigest getMessageDigest(){
         MessageDigest md;
-        try {
+        try{
             md = MessageDigest.getInstance("SHA-512");
-        } catch (NoSuchAlgorithmException e) {
+        }catch (NoSuchAlgorithmException e){
             throw new IllegalStateException("SHA-512 does not exist!");
         }
         return md;
     }
 
-    private static String encodePassword(String salt, String password) {
+    private static String encodePassword(String salt, String password){
         MessageDigest md = getMessageDigest();
         md.update(salt.getBytes(StandardCharsets.UTF_8));
 
         byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        return new String(hashedPassword, StandardCharsets.UTF_8)
-                .replace("\"", "");
+        return new String(hashedPassword, StandardCharsets.UTF_8).replace("\"","");
     }
 
-    public void registerButtonOnAction(ActionEvent event){
+    public void registerManagerButtonOnAction(ActionEvent event){
         if(setPasswordField.getText().equals(confirmPasswordField.getText())){
-            registrationUser();
-        }else {
-            confirmPasswordLabel.setText("Password does not match.");
+            signUpUser();
+        }else{
+            confirmPasswordLabel.setText("Password does not match!");
         }
     }
 
-    public void registrationUser(){
+    public void signUpUser(){
+        int ok1 = 0, ok2 = 0; ;
+        DatabaseConnection connection = new DatabaseConnection();
+        Connection connectionDB =connection.getConnection();
 
-        int ok1 = 0, ok2 = 0;
-
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-
-        String first_name = firstnameTextField.getText();
-        String last_name = lastnameTextField.getText();
+        String companyName = companyNameTextField.getText();
+        String firstName = firstnameTextField.getText();
+        String lastName = lastnameTextField.getText();
         String username = usernameTextField.getText();
         String address = addressTextField.getText();
         String phone_number = phoneNumberTextField.getText();
         String password = encodePassword(username,setPasswordField.getText());
 
-        String insertFields = "INSERT INTO customers (first_name, last_name,username,address,phone_number,password) VALUES ('";
-        String insertValues = first_name + "','" + last_name + "','" + username + "','" + address + "','" + phone_number + "','" + password + "')";
+        String insertFields = "INSERT INTO company (name, first_name_manager, last_name_manager, username, address, phone_number, password) VALUES ('";
+        String insertValues = companyName + "', '"+ firstName +"', '"+ lastName +"', '"+ username +"', '"+ address +"', '"+ phone_number +"', '"+ password +"')";
         String insertToRegister = insertFields + insertValues;
 
         String verifyUser1 = "SELECT COUNT(1) FROM company where username = '"+ username +"'";
         String verifyUser2 = "SELECT COUNT(1) FROM customers where username = '"+ username +"'";
 
         try{
-            Statement statement = connectDB.createStatement();
+            Statement statement = connectionDB.createStatement();
             ResultSet queryResult2 = statement.executeQuery(verifyUser2);
 
             while (queryResult2.next()){
@@ -127,7 +118,7 @@ public class RegisterController implements Initializable {
             ResultSet queryResult1 = statement.executeQuery(verifyUser1);
             while (queryResult1.next()){
                 if (queryResult1.getInt(1) == 1 )
-                    ok2 = 1;
+                 ok2 = 1;
             }
 
             if( ok1 == 1 || ok2 == 1){
@@ -141,14 +132,20 @@ public class RegisterController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }
-
     }
 
-    public void openLogin(ActionEvent event){
+    public void clloseButtonOnAction(ActionEvent event){
+
+        Stage stage =(Stage) clloseButton.getScene().getWindow();
+        stage.close();
+        Platform.exit();
+    }
+
+    public void backToLogin(ActionEvent event){
         Stage stage;
         Scene scene;
 
-        try{
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             stage =(Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -160,5 +157,6 @@ public class RegisterController implements Initializable {
             e.getCause();
         }
     }
+
 
 }
