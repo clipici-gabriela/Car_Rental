@@ -1,4 +1,9 @@
+com\example\carrental\StartCustomerPageController.class
+com\example\carrental\DatabaseConnection.class
+com\example\carrental\ManagerRegisterController.class
+com\example\carrental\RegisterController.class
+com\example\carrental\LoginController.class
 module-info.class
 com\example\carrental\HelloApplication.class
-com\example\carrental\DatabaseConnection.class
-com\example\carrental\LoginController.class
+com\example\carrental\StartManagerPageController.class
+com\example\carrental\ChooseRoleController.class

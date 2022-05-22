@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="250.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carrental.ChooseRoleController">
+   <children>
+      <AnchorPane prefHeight="250.0" prefWidth="450.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <Button fx:id="customerButton" layoutX="115.0" layoutY="51.0" mnemonicParsing="false" onAction="#createCustomerAccount" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" text="Sign up as customer" textFill="#113def">
+               <font>
+                  <Font name="Segoe UI Italic" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="managerButton" layoutX="115.0" layoutY="158.0" mnemonicParsing="false" onAction="#createManagerAccount" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" text="Sign un as manager" textFill="#113def">
+               <font>
+                  <Font name="Segoe UI Italic" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
