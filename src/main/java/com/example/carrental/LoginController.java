@@ -49,7 +49,7 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField enterPasswordField;
 
-    private String role;
+    private String username;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -65,18 +65,9 @@ public class LoginController implements Initializable {
     public void loginButtonOnAction(ActionEvent event){
 
         if(usernameTextField.getText().isBlank()==false &&enterPasswordField.getText().isBlank()==false){
-          //  loginMessageLabel.setText(" You try to login.");
             validateLogin();
-            getUser();
-            if (role == "manager"){
-
-            } else{
-
-            }
-
         }else {
             loginMessageLabel.setText("Please enter username and password");
-
         }
 
     }
@@ -155,7 +146,7 @@ public class LoginController implements Initializable {
                     stage.show();
                 });
             }
-            if(ok2 == 1)if (ok1 == 1){
+            if(ok2 == 1){
                 loginButton.setOnAction(actionEvent -> {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader();
@@ -176,29 +167,15 @@ public class LoginController implements Initializable {
                 });
             }
 
+            if(ok1 == 0 && ok2 == 0){
+             loginMessageLabel.setText("Invalid login. Please try again!");
+            }
+
         }catch (Exception e){
             e.printStackTrace();
             e.getCause();
         }
     }
-
-    public void getUser(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String getRow = "SELECT * FROM users_account WHERE username = '" + usernameTextField.getText() + "'";
-        try {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(getRow);
-            while (queryResult.next()){
-                role = queryResult.getString("role");
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
-        }
-
-    }
-
 
 
     public void createAccountForm(ActionEvent event){
