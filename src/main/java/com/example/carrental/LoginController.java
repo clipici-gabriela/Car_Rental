@@ -49,11 +49,7 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField enterPasswordField;
 
-<<<<<<< Updated upstream
-    private String saveUsername;
-=======
     public static String saveUsername;
->>>>>>> Stashed changes
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -105,10 +101,7 @@ public class LoginController implements Initializable {
     public void validateLogin(){
 
         int ok1 = 0, ok2 = 0, ok3 = 0;
-<<<<<<< Updated upstream
-=======
         String user = usernameTextField.getText();
->>>>>>> Stashed changes
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -143,11 +136,7 @@ public class LoginController implements Initializable {
             }
 
             if (ok1 == 1){
-<<<<<<< Updated upstream
-                saveUsername = usernameTextField.getText();
-=======
                 saveUsername = user;
->>>>>>> Stashed changes
                 loginButton.setOnAction(actionEvent -> {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader();
@@ -169,11 +158,7 @@ public class LoginController implements Initializable {
                 });
             }
             if(ok2 == 1){
-<<<<<<< Updated upstream
-                saveUsername = usernameTextField.getText();
-=======
                 saveUsername = user;
->>>>>>> Stashed changes
                 loginButton.setOnAction(actionEvent -> {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader();
@@ -194,17 +179,12 @@ public class LoginController implements Initializable {
                 });
             }
             if(ok3 == 1){
-<<<<<<< Updated upstream
-                saveUsername = usernameTextField.getText();
-=======
                 saveUsername = user;
->>>>>>> Stashed changes
                 loginButton.setOnAction(actionEvent -> {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader();
 
                     loader.setLocation(getClass().getResource("startCarSpecialistPage.fxml"));
-<<<<<<< Updated upstream
 
                     try {
                         loader.load();
@@ -220,23 +200,6 @@ public class LoginController implements Initializable {
                 });
             }
 
-=======
-
-                    try {
-                        loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    Parent root = loader.getRoot();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.UNDECORATED);
-                    stage.show();
-                });
-            }
-
->>>>>>> Stashed changes
             if(ok1 == 0 && ok2 == 0 && ok3 == 0){
              loginMessageLabel.setText("Invalid login. Please try again!");
             }
@@ -245,10 +208,6 @@ public class LoginController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }
-    }
-
-    public String getUser(){
-        return saveUsername;
     }
 
 

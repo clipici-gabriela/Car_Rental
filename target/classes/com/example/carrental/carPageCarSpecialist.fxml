@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carrental.CarPageCustomer">
    <children>
       <Pane prefHeight="74.0" prefWidth="600.0" style="-fx-background-color: #1f4080;">
          <children>
-            <Button fx:id="detaliesButton" layoutX="518.0" layoutY="37.0" mnemonicParsing="false" onAction="#dateliesButtonOnAction" style="-fx-background-color: #1f4080;" text="Detalies" textFill="WHITE">
+            <Button fx:id="validateButton" layoutX="518.0" layoutY="37.0" mnemonicParsing="false" style="-fx-background-color: #1f4080;" text="Validate" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold Italic" size="14.0" />
                </font>

@@ -108,7 +108,7 @@ public class RegisterController implements Initializable {
         String phone_number = phoneNumberTextField.getText();
         String password = encodePassword(username,setPasswordField.getText());
 
-        String insertFields = "INSERT INTO car_specialist (first_name, last_name,username,address,phone_number,password) VALUES ('";
+        String insertFields = "INSERT INTO customers (first_name, last_name,username,address,phone_number,password) VALUES ('";
         String insertValues = first_name + "','" + last_name + "','" + username + "','" + address + "','" + phone_number + "','" + password + "')";
         String insertToRegister = insertFields + insertValues;
 

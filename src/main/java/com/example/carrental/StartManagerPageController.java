@@ -8,16 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-<<<<<<< Updated upstream
-import javafx.stage.Stage;
-
-=======
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.File;
->>>>>>> Stashed changes
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,11 +21,6 @@ public class StartManagerPageController implements Initializable {
     @FXML
     private Button exitButton;
 
-<<<<<<< Updated upstream
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-=======
     @FXML
     private ImageView helloImageView;
 
@@ -58,7 +48,6 @@ public class StartManagerPageController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }
->>>>>>> Stashed changes
     }
 
     public void logoutOnAction (ActionEvent event){
