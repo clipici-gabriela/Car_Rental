@@ -31,7 +31,7 @@
       </VBox>
       <Pane prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #1f4063;">
          <children>
-            <Label layoutX="32.0" layoutY="24.0" text="Manager" textFill="WHITE">
+            <Label layoutX="32.0" layoutY="24.0" text="Car Specialist" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
