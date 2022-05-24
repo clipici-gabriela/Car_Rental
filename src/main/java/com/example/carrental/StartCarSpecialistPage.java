@@ -1,8 +1,5 @@
 package com.example.carrental;
 
-<<<<<<< Updated upstream
-public class StartCarSpecialistPage {
-=======
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,5 +69,4 @@ public class StartCarSpecialistPage implements Initializable {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
->>>>>>> Stashed changes
 }

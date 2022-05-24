@@ -13,11 +13,7 @@
       <VBox layoutY="-2.0" prefHeight="404.0" prefWidth="158.0" style="-fx-background-color: #1f4063;">
          <children>
             <Pane prefHeight="82.0" prefWidth="158.0" />
-<<<<<<< Updated upstream
-            <Button fx:id="accountButton" mnemonicParsing="false" prefHeight="75.0" prefWidth="158.0" style="-fx-background-color: #1f4063;" text="Account" textFill="WHITE">
-=======
             <Button fx:id="accountButton" mnemonicParsing="false" onAction="#accountOnAcction" prefHeight="75.0" prefWidth="158.0" style="-fx-background-color: #1f4063;" text="Account" textFill="WHITE">
->>>>>>> Stashed changes
                <font>
                   <Font name="Segoe UI Bold" size="15.0" />
                </font>
@@ -46,11 +42,6 @@
                   <Font name="Segoe UI Bold" size="14.0" />
                </font>
             </Button>
-<<<<<<< Updated upstream
-         </children>
-      </Pane>
-      <ListView fx:id="listCompanies" layoutX="228.0" layoutY="78.0" prefHeight="321.0" prefWidth="243.0" />
-=======
             <Button fx:id="goToButton" layoutX="508.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOnAcction" style="-fx-background-color: #1f4063;" text="View Cars" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold Italic" size="13.0" />
@@ -64,6 +55,5 @@
          </children>
       </Pane>
       <ListView fx:id="listCompanies" layoutX="158.0" layoutY="75.0" prefHeight="325.0" prefWidth="443.0" />
->>>>>>> Stashed changes
    </children>
 </AnchorPane>

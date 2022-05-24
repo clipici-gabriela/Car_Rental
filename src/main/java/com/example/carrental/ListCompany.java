@@ -1,10 +1,7 @@
 package com.example.carrental;
 
-<<<<<<< Updated upstream
-=======
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
->>>>>>> Stashed changes
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,22 +27,14 @@ public class ListCompany implements Initializable {
     @FXML
     private Button exitButton;
 
-<<<<<<< Updated upstream
-    @FXML
-    private TableColumn <Companies, String> Company;
-=======
->>>>>>> Stashed changes
 
     @FXML
     private ListView<String> listCompanies;
 
     ObservableList<String> list = FXCollections.observableArrayList();
 
-<<<<<<< Updated upstream
-=======
     public static String company;
 
->>>>>>> Stashed changes
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -59,12 +48,6 @@ public class ListCompany implements Initializable {
             while(resultSet.next()){
                 String nameC = resultSet.getString("name");
 
-<<<<<<< Updated upstream
-                list.add(new String(nameC));
-            }
-
-            listCompanies.setItems(list);
-=======
                 list.add(nameC);
             }
 
@@ -75,7 +58,6 @@ public class ListCompany implements Initializable {
                     company = listCompanies.getSelectionModel().getSelectedItem();
                 }
             });
->>>>>>> Stashed changes
 
 
         }catch (Exception e){
@@ -85,8 +67,6 @@ public class ListCompany implements Initializable {
 
     }
 
-<<<<<<< Updated upstream
-=======
     public void goToOnAcction(ActionEvent event){
 
         Stage stage;
@@ -121,7 +101,6 @@ public class ListCompany implements Initializable {
         }
     }
 
->>>>>>> Stashed changes
     public void logoutOnAction (ActionEvent event){
         Stage stage;
         Scene scene;
