@@ -1,5 +1,7 @@
 package com.example.carrental;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,48 +10,53 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class StartCustomerPageController implements Initializable {
 
+public class ListCompany implements Initializable {
     @FXML
     private Button exitButton;
 
     @FXML
-    private ImageView helloImage;
+    private TableColumn <Companies, String> Company;
 
+    @FXML
+    private ListView<String> listCompanies;
+
+    ObservableList<String> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        File brandingFile = new File("background/hello_image.png");
-        Image brandingImage = new Image(brandingFile.toURI().toString());
-        helloImage.setImage(brandingImage);
-    }
-
-    public void listCompaniesOnAcction(ActionEvent event){
-        Stage stage;
-        Scene scene;
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        String query = "SELECT name FROM company";
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("listCompanies.fxml"));
-            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            Statement statement = connectDB.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
 
-        } catch(Exception e){
+            while(resultSet.next()){
+                String nameC = resultSet.getString("name");
+
+                list.add(new String(nameC));
+            }
+
+            listCompanies.setItems(list);
+
+
+        }catch (Exception e){
             e.printStackTrace();
             e.getCause();
         }
+
     }
 
     public void logoutOnAction (ActionEvent event){
@@ -73,5 +80,7 @@ public class StartCustomerPageController implements Initializable {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
+
+
 
 }

@@ -96,7 +96,7 @@ public class RegisterController implements Initializable {
 
     public void registrationUser(){
 
-        int ok1 = 0, ok2 = 0;
+        int ok1 = 0, ok2 = 0, ok3 = 0;
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -108,12 +108,13 @@ public class RegisterController implements Initializable {
         String phone_number = phoneNumberTextField.getText();
         String password = encodePassword(username,setPasswordField.getText());
 
-        String insertFields = "INSERT INTO customers (first_name, last_name,username,address,phone_number,password) VALUES ('";
+        String insertFields = "INSERT INTO car_specialist (first_name, last_name,username,address,phone_number,password) VALUES ('";
         String insertValues = first_name + "','" + last_name + "','" + username + "','" + address + "','" + phone_number + "','" + password + "')";
         String insertToRegister = insertFields + insertValues;
 
         String verifyUser1 = "SELECT COUNT(1) FROM company where username = '"+ username +"'";
         String verifyUser2 = "SELECT COUNT(1) FROM customers where username = '"+ username +"'";
+        String verifyUser3 = "SELECT COUNT(1) FROM car_specialist where username = '"+ username +"'";
 
         try{
             Statement statement = connectDB.createStatement();
@@ -130,7 +131,13 @@ public class RegisterController implements Initializable {
                     ok2 = 1;
             }
 
-            if( ok1 == 1 || ok2 == 1){
+            ResultSet queryResult3 = statement.executeQuery(verifyUser3);
+            while (queryResult3.next()){
+                if (queryResult3.getInt(1) == 1 )
+                    ok3 = 1;
+            }
+
+            if( ok1 == 1 || ok2 == 1 || ok3 == 1){
                 usernameLabel.setText("Username already exist");
             } else {
                 statement.executeUpdate(insertToRegister);

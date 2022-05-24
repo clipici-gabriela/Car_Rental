@@ -49,7 +49,7 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField enterPasswordField;
 
-    private String role;
+    private String saveUsername;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -65,18 +65,9 @@ public class LoginController implements Initializable {
     public void loginButtonOnAction(ActionEvent event){
 
         if(usernameTextField.getText().isBlank()==false &&enterPasswordField.getText().isBlank()==false){
-          //  loginMessageLabel.setText(" You try to login.");
             validateLogin();
-            getUser();
-            if (role == "manager"){
-
-            } else{
-
-            }
-
         }else {
             loginMessageLabel.setText("Please enter username and password");
-
         }
 
     }
@@ -109,7 +100,7 @@ public class LoginController implements Initializable {
 
     public void validateLogin(){
 
-        int ok1 = 0, ok2 = 0;
+        int ok1 = 0, ok2 = 0, ok3 = 0;
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -117,6 +108,8 @@ public class LoginController implements Initializable {
         String encodePassword = encodePassword(usernameTextField.getText(), enterPasswordField.getText());
         String verifyLogin1 ="select count(1) from customers where username = '" + usernameTextField.getText() +"' and password = '"+ encodePassword +"'";
         String verifyLogin2 ="select count(1) from company where username = '" + usernameTextField.getText() +"' and password = '"+ encodePassword +"'";
+        String verifyLogin3 ="select count(1) from car_specialist where username = '" + usernameTextField.getText() +"' and password = '"+ encodePassword +"'";
+
 
         try{
             Statement statement = connectDB.createStatement();
@@ -134,7 +127,15 @@ public class LoginController implements Initializable {
                     ok2 = 1;
             }
 
+            ResultSet queryResult3 = statement.executeQuery(verifyLogin3);
+
+            while (queryResult3.next()){
+                if (queryResult3.getInt(1) == 1)
+                    ok3 = 1;
+            }
+
             if (ok1 == 1){
+                saveUsername = usernameTextField.getText();
                 loginButton.setOnAction(actionEvent -> {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader();
@@ -155,7 +156,8 @@ public class LoginController implements Initializable {
                     stage.show();
                 });
             }
-            if(ok2 == 1)if (ok1 == 1){
+            if(ok2 == 1){
+                saveUsername = usernameTextField.getText();
                 loginButton.setOnAction(actionEvent -> {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader();
@@ -175,6 +177,31 @@ public class LoginController implements Initializable {
                     stage.show();
                 });
             }
+            if(ok3 == 1){
+                saveUsername = usernameTextField.getText();
+                loginButton.setOnAction(actionEvent -> {
+                    loginButton.getScene().getWindow().hide();
+                    FXMLLoader loader = new FXMLLoader();
+
+                    loader.setLocation(getClass().getResource("startCarSpecialistPage.fxml"));
+
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Parent root = loader.getRoot();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.show();
+                });
+            }
+
+            if(ok1 == 0 && ok2 == 0 && ok3 == 0){
+             loginMessageLabel.setText("Invalid login. Please try again!");
+            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -182,23 +209,9 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void getUser(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String getRow = "SELECT * FROM users_account WHERE username = '" + usernameTextField.getText() + "'";
-        try {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(getRow);
-            while (queryResult.next()){
-                role = queryResult.getString("role");
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
-        }
-
+    public String getUser(){
+        return saveUsername;
     }
-
 
 
     public void createAccountForm(ActionEvent event){
