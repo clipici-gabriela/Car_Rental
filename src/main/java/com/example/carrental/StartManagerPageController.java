@@ -8,8 +8,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+<<<<<<< Updated upstream
 import javafx.stage.Stage;
 
+=======
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+import java.io.File;
+>>>>>>> Stashed changes
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,9 +26,39 @@ public class StartManagerPageController implements Initializable {
     @FXML
     private Button exitButton;
 
+<<<<<<< Updated upstream
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+=======
+    @FXML
+    private ImageView helloImageView;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        File brandingFile = new File("background/hello_image.png");
+        Image brandingImage = new Image(brandingFile.toURI().toString());
+        helloImageView.setImage(brandingImage);
+
+    }
+
+    public void accountOnAcction(ActionEvent event){
+        Stage stage;
+        Scene scene;
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("accountManager.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch(Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+>>>>>>> Stashed changes
     }
 
     public void logoutOnAction (ActionEvent event){

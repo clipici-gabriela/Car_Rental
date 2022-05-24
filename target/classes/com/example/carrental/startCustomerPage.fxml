@@ -13,7 +13,7 @@
    <left>
       <VBox prefHeight="400.0" prefWidth="158.0" style="-fx-background-color: #1f4063;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="accountButton" mnemonicParsing="false" prefHeight="75.0" prefWidth="158.0" style="-fx-background-color: #1f4063;" text="Account" textFill="WHITE">
+            <Button fx:id="accountButton" mnemonicParsing="false" onAction="#accountOnAcction" prefHeight="75.0" prefWidth="158.0" style="-fx-background-color: #1f4063;" text="Account" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold" size="15.0" />
                </font>
