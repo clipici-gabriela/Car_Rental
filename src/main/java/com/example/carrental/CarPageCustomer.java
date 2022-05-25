@@ -26,6 +26,7 @@ public class CarPageCustomer implements Initializable {
     private ListView<Cars> listCars;
 
     private String company = ListCompany.company;
+    public static String company1  ;
     public static Cars car;
     ObservableList<Cars> list = FXCollections.observableArrayList();
 
@@ -35,7 +36,7 @@ public class CarPageCustomer implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         String query = "SELECT marca, model FROM cars WHERE company = '"+ company +"'";
-
+        company1 = company;
         try{
 
             Statement statement = connectDB.createStatement();
