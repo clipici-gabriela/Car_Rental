@@ -31,6 +31,23 @@ public class StartCarSpecialistPage implements Initializable {
 
     }
 
+    public void listButtonOnAcction(ActionEvent event){
+        Stage stage;
+        Scene scene;
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("carPageCarSpecialist.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch(Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
     public void accountOnAcction(ActionEvent event){
         Stage stage;
         Scene scene;

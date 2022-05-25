@@ -33,7 +33,6 @@ public class AccountCarSpecialist implements Initializable {
     @FXML
     private Label phoneNumberLabel;
 
-    private String first_name, last_name, address, phone_number;
     private String username = LoginController.saveUsername;
 
     @Override
@@ -58,12 +57,12 @@ public class AccountCarSpecialist implements Initializable {
 
     }
 
-    public void listCompaniesOnAcction(ActionEvent event){
+    public void listButtonOnAcction(ActionEvent event){
         Stage stage;
         Scene scene;
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("listCompanies.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("carPageCarSpecialist.fxml"));
             stage =(Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

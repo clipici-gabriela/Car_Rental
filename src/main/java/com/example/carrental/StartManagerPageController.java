@@ -50,6 +50,22 @@ public class StartManagerPageController implements Initializable {
         }
     }
 
+    public void listCarOnAction(ActionEvent event){
+        Stage stage;
+        Scene scene;
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("listCarsManager.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch(Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
     public void logoutOnAction (ActionEvent event){
         Stage stage;
         Scene scene;
