@@ -11,7 +11,7 @@
    <children>
       <Pane prefHeight="74.0" prefWidth="600.0" style="-fx-background-color: #1f4080;">
          <children>
-            <Button fx:id="validateButton" layoutX="518.0" layoutY="37.0" mnemonicParsing="false" style="-fx-background-color: #1f4080;" text="Validate" textFill="WHITE">
+            <Button fx:id="validateButton" layoutX="518.0" layoutY="37.0" mnemonicParsing="false" onAction="#verifyButtonOnAction" style="-fx-background-color: #1f4080;" text="Validate" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold Italic" size="14.0" />
                </font>

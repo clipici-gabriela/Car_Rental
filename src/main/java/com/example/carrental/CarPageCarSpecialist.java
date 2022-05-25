@@ -65,6 +65,23 @@ public class CarPageCarSpecialist implements Initializable {
         }
     }
 
+    public void verifyButtonOnAction(ActionEvent event){
+        Stage stage;
+        Scene scene;
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("verifyCarPage.fxml"));
+            stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch(Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
     public void backOnAcction(ActionEvent event){
         Stage stage;
         Scene scene;
